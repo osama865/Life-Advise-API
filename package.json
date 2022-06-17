@@ -23,6 +23,7 @@
     "branch": "git checkout -b $BRANCH_NAME",
     "merge": "git checkout master && git merge $BRANCH_NAME",
     "heroku-postbuild": "npm run build",
+    "build": "npm run build",
     "start": "node index.js"
   },
   "author": "osama",
