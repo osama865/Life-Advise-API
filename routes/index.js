@@ -23,7 +23,7 @@ Router.post('/lang', fetchByLanguage)
 Router.post('/multiple', fetchMultiple)
 
 Router.get('/', (req, res) => {
-    res.send('hello')
+    res.send('Hello to My Wonderful Quotes APIs')
 })
 
 module.exports = {
