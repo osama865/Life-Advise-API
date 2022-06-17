@@ -1,0 +1,47 @@
+const mongoose = require("mongoose");
+
+/**
+ user scheme = {
+     _id,
+     username,
+     hashedPassword,
+     authKey,
+     connectionsAmount,
+     date,
+     email
+
+ }
+ */
+const UserSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    hashedPassword: {
+        type: String,
+        required: true,
+    },
+    authKey: {
+        type: String,
+        required: true,
+    },
+    requests: {
+        type: Number,
+        default: 0
+    },
+    quota: {
+        type: Number,
+        default: 5
+    },
+    date: { type: Date, default: Date.now },
+    email: { type: mongoose.SchemaTypes.String },
+});
+
+const User = mongoose.model("User", UserSchema);
+try {
+    User.createCollection("users")
+} catch (error) {
+
+}
+
+module.exports = User;
