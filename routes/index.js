@@ -2,10 +2,8 @@
  * All thae app routea lays here
  * The user first register to get his/her authentication key
  * Whenever new request come, it must has the authentication key to verfy its identity
- * 
 */
 const Router = require("express").Router();
-
 const { register, fetchOne, fetchMultiple, fetchByAuthor, fetchByLanguage } = require("../Controllers")
 
 Router.post('/register', register)

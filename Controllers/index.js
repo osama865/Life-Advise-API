@@ -15,6 +15,7 @@ const mongoose = require("mongoose");
  * And finally, create a signed JWT token.
 */
 
+// todo change these dummy messages to smart error handlers
 const OK = {
     message: `You are authenticated, you can use the api as you want.`,
     secret: "i'm the secret flag, only choosen like you will obtain me."
@@ -37,6 +38,10 @@ const error = {
     error: ""
 }
 
+// TODO translate route, simply tranlste quotes to another languages before sending it to client
+// TODO set object { translte : boolean, langauge}, if existed then send the fetched data to
+// translate function, and then send the returned data
+// quotes to the specified language and then send to the client 
 const register = async (req, res, next) => {
     console.log('im the controller', req.body);
     const name = req.body.name

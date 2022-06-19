@@ -35,6 +35,7 @@ const updateRequestsMiddleware = async (req, res, next) => {
     });
 }
 
+// FIX rename verfy to verfyMiddleware.
 const verfy = async (req, res, next) => {
     // first of all extract the API key from the header
     const authKey = req.header('x-api-key')
