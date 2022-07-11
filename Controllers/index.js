@@ -1,4 +1,4 @@
-const { addUser, verfy, fetch_random, fetch_multiple, fetch_by_author, fetch_by_language } = require("../Services");
+const { addUser, fetch_random, fetch_multiple, fetch_by_author, fetch_by_language, findUser } = require("../Services");
 const { uuid } = require("../Services/generateAuthKey");
 const { hashCode } = require("../Services/hashing");
 const mongoose = require("mongoose");
@@ -38,12 +38,12 @@ const error = {
     error: ""
 }
 
+
 // TODO translate route, simply tranlste quotes to another languages before sending it to client
 // TODO set object { translte : boolean, langauge}, if existed then send the fetched data to
 // translate function, and then send the returned data
 // quotes to the specified language and then send to the client 
 const register = async (req, res, next) => {
-    console.log('im the controller', req.body);
     const name = req.body.name
     const password = req.body.password
     const email = req.body.email
@@ -54,22 +54,32 @@ const register = async (req, res, next) => {
         message: `Your API authentication key is ${authKey} KEEP IT SECRET and do not give it to anyone.`,
         authKey: authKey
     }
-    console.log(response, 'shshsh');
-    // addUser()
-    const reqData = {
-        name: name,
-        hashedPassword: hashedPassword,
-        authKey,
-        email,
-        quota: 3,
-        requests: 0
-    }
-    addUser(reqData).then((res) => {
-        res.send(response)
-    }).catch((err) => {
-        response.error = err
-        res.send(response)
+
+    // first make sure the user username and email are not duplicated
+    findUser({ name, email }).then((result) => {
+        if (result) {
+            console.log("this user is not found");
+            res.status(409).send("This username or email is already in use!")
+            res.end()
+        } else {
+            const reqData = {
+                name: name,
+                hashedPassword: hashedPassword,
+                authKey,
+                email,
+                quota: 3,
+                requests: 0
+            }
+            addUser(reqData).then((response) => {
+                res.send(response)
+            }).catch((err) => {
+                response.error = err
+                res.send(response)
+                if (err) throw err
+            })
+        }
     })
+
 }
 
 const fetchOne = async (req, res, next) => {
@@ -81,15 +91,13 @@ const fetchOne = async (req, res, next) => {
     fetch_random().then((result) => {
         res.send(result[0])
     }).catch((err) => {
-        console.log(err);
+        if (err) throw err
     });
 
 }
 
 const fetchMultiple = async (req, res, next) => {
     const providedAuthKey = req.body.authKey
-    console.log("query and params", req.params);
-    console.log("provided", providedAuthKey);
     const filter = req.body.filter
     const options = req.body.options
 
@@ -103,12 +111,11 @@ const fetchMultiple = async (req, res, next) => {
         res.send("You set the limit option to 0, this by default will fetch all the data in this collection, wich is not allowed")
         return;
     }
+
     fetch_multiple(reqData).then((result) => {
         res.send(result)
     }).catch((err) => {
-        error.error = err
-        console.log(err);
-        res.send(error)
+        if (err) throw err
     });
 }
 
@@ -132,6 +139,7 @@ const fetchByAuthor = async (req, res, next) => {
         }
     }).catch((err) => {
         res.send(error)
+        if (err) throw err
     });
 }
 
@@ -154,6 +162,7 @@ const fetchByLanguage = async (req, res, next) => {
         }
     }).catch((err) => {
         res.send(error)
+        if (err) throw err
     });
 }
 

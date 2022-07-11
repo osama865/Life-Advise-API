@@ -12,8 +12,13 @@ exports.addUser = async (userData = {}) => {
     console.log("im the funny new user", user);
 }
 
-exports.findUser = async (authKey)=>{
+exports.findUserWithAuthKey = async (authKey)=>{
     return await User.findOne({ authKey })
+}
+
+exports.findUser = async (filter)=>{
+    console.log(filter , 'hssssssssssssssssss');
+    return await User.findOne(filter)
 }
 
 exports.updateUserRequests = async (authKey)=>{

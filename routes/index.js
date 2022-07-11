@@ -4,9 +4,10 @@
  * Whenever new request come, it must has the authentication key to verfy its identity
 */
 const Router = require("express").Router();
-const { register, fetchOne, fetchMultiple, fetchByAuthor, fetchByLanguage } = require("../Controllers")
+const { register, fetchOne, fetchMultiple, fetchByAuthor, fetchByLanguage } = require("../Controllers");
+const { hasBodyMiddleware } = require("../middlewares/registration");
 
-Router.post('/register', register)
+Router.post('/register', hasBodyMiddleware, register)
 
 Router.post('/check', (req, res) => {
     console.log(req.body);

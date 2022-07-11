@@ -5,10 +5,10 @@
  * 
  */
 
-const { findUser, updateUserRequests } = require("../Services")
+const { findUser, updateUserRequests, findUserWithAuthKey } = require("../Services")
 
 const checkRateLimit = async (authKey, terminate) => {
-    findUser(authKey).then((result) => {
+    findUserWithAuthKey(authKey).then((result) => {
         console.log(result);
         if (result.requests === result.quota || result.requests > result.quota) {
             console.log('rate limit exeeded')

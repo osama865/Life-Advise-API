@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
     },
     quota: {
         type: Number,
-        default: 5
+        default: 50000
     },
     date: { type: Date, default: Date.now },
     email: { type: mongoose.SchemaTypes.String },

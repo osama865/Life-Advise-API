@@ -1,12 +1,12 @@
 const User = require("../Model/Schema");
-const { findUser, updateUserRequests } = require("../Services");
+const { findUser, updateUserRequests, findUserWithAuthKey } = require("../Services");
 
 const checkRateLimitMiddleware = async (req, res, next) => {
     const providedAuthKey = req.header('x-api-key')
     console.log("i'm a middleware", providedAuthKey);
     // first of all get the user data
     if (providedAuthKey !== undefined) {
-        findUser(providedAuthKey).then((result) => {
+        findUserWithAuthKey(providedAuthKey).then((result) => {
             // check if the user reached or exeeded the allowed quota
             if (result.requests >= result.quota) {
                 // if so, response with 429, Too many requests

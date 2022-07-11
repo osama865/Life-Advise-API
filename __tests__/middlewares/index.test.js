@@ -1,6 +1,6 @@
-describe('routes testing', () => {
-    it('should be true', () => {
-        const a = true
-        expect(a).toBe(true)
+describe.skip('routes testing', () => {
+    it('should be false', () => {
+        const a = false
+        expect(a).toBe(false)
     });
 });

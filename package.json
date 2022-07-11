@@ -28,6 +28,8 @@
   "author": "osama",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^28.1.1"
+    "axios": "^0.27.2",
+    "jest": "^28.1.1",
+    "supertest": "^6.2.3"
   }
 }
