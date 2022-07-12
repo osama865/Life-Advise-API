@@ -17,7 +17,7 @@ Router.get('/one', fetchOne)
 
 Router.post('/author', fetchByAuthor)
 
-Router.post('/lang', fetchByLanguage)
+Router.post('/lang' ,fetchByLanguage)
 
 Router.post('/multiple', fetchMultiple)
 

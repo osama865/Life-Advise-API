@@ -1,8 +1,8 @@
+const mongoose = require("mongoose");
 const { addUser, fetch_random, fetch_multiple, fetch_by_author, fetch_by_language, findUser } = require("../Services");
 const { uuid } = require("../Services/generateAuthKey");
 const { hashCode } = require("../Services/hashing");
-const mongoose = require("mongoose");
-
+require("../Services/cache")
 /**
  * All thae app logic lays here
  * Controller role is to extract data from request and call the right
@@ -97,22 +97,15 @@ const fetchOne = async (req, res, next) => {
 }
 
 const fetchMultiple = async (req, res, next) => {
-    const providedAuthKey = req.body.authKey
     const filter = req.body.filter
     const options = req.body.options
 
-    const reqData = {
-        authKey: providedAuthKey,
-        filter,
-        options
-    }
-
-    if (reqData.options?.limit === 0) {
+    if (options?.limit === 0) {
         res.send("You set the limit option to 0, this by default will fetch all the data in this collection, wich is not allowed")
         return;
     }
 
-    fetch_multiple(reqData).then((result) => {
+    fetch_multiple(filter, options).then((result) => {
         res.send(result)
     }).catch((err) => {
         if (err) throw err
@@ -120,18 +113,10 @@ const fetchMultiple = async (req, res, next) => {
 }
 
 const fetchByAuthor = async (req, res, next) => {
-    const author = req.body.author
-    const limit = req.body.limit
-    const skip = req.body.skip
-    const reqData = {
-        author,
-        options: {
-            limit,
-            skip
-        }
-    }
+    const filter = req.body.filter
+    const options = req.body.options
 
-    fetch_by_author(author, reqData.options).then((result) => {
+    fetch_by_author(filter, options).then((result) => {
         if (result.length === 0) {
             res.send(noAdvicesForAuthor)
         } else {
@@ -144,17 +129,11 @@ const fetchByAuthor = async (req, res, next) => {
 }
 
 const fetchByLanguage = async (req, res, next) => {
-    const providedAuthKey = req.body.authKey
-    const language = req.body.language
+    const filter = req.body.filter
     const options = req.body.options
 
-    const reqData = {
-        authKey: providedAuthKey,
-        language,
-        options
-    }
-
-    fetch_by_language(reqData).then((result) => {
+    console.log(filter, options);
+    fetch_by_language(filter, options).then((result) => {
         if (result.length === 0) {
             res.send(noAdvicesForLang)
         } else {
