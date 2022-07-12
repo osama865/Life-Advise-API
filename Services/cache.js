@@ -17,8 +17,17 @@ client.on('connect', function () {
 // client.get = util.promisify(client.get)
 const exec = mongoose.Query.prototype.exec
 
+mongoose.Query.prototype.cache = function () {
+    this.useCache = true
+    return this;
+}
+
 mongoose.Query.prototype.exec = async function () {
     console.log('iam about to run a query');
+
+    if (!this.useCache) {
+        return exec.apply(this, arguments)
+    }
     const key = JSON.stringify(Object.assign({}, this.getOptions(), this.getQuery()))
 
     // console.log("The KEY", key, this.getOptions());

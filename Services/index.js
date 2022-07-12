@@ -32,18 +32,19 @@ exports.fetch_random = async () => {
     return await Advice.aggregate([{ $sample: { size: 1 } }])
 }
 
+// use .cache to determinde weater to cache this query or not
 exports.fetch_by_author = async (filter, options) => {
     // later change the size to dynamic size.
-    let result = await Advice.find(filter, null, options)
+    let result = await Advice.find(filter, null, options).cache()
     return result
 }
 
 exports.fetch_by_language = async (filter, options) => {
     // fetch quotes or advice in specific language
-    return await Advice.find(filter, null, options)
+    return await Advice.find(filter, null, options).cache()
 }
 
 exports.fetch_multiple = async (filter, options) => {
     // later change the size to dynamic size.
-    return await Advice.find(filter, null, options)
+    return await Advice.find(filter, null, options).cache()
 }
