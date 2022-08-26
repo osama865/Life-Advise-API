@@ -1,5 +1,6 @@
 const { Advice, User } = require('../Model/Schema');
 const { db } = require('../Model/Schema');
+require("./cache")
 
 // all connections to database and queries lay here
 exports.addUser = async (userData = {}) => {

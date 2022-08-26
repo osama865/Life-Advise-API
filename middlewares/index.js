@@ -63,8 +63,19 @@ const verfy = async (req, res, next) => {
     }
 }
 
+const limitation = async (req, res, next) => {
+
+    const options = req.query.options || req.body.options
+    if (!options.limit || options.limit === null) {
+        options.limit = 500
+    }
+
+    next()
+}
+
 module.exports = {
     checkRateLimitMiddleware,
     updateRequestsMiddleware,
-    verfy
+    verfy,
+    limitation
 }
