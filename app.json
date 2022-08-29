@@ -1,0 +1,21 @@
+{
+    "name": "Quote API",
+    "description": "Fetch famous Quotes from thousands of collected Quotes and sayings",
+    "repository": "https://github.com/osama865/Life-Advise-API",
+    "success_url": "/random",
+    "image": "heroku/nodejs",
+  
+    "buildpacks": [
+      {
+        "url": "https://github.com/heroku/heroku-buildpack-nodejs#v176"
+      }
+    ],
+    "environments": {
+      "test": {
+        "scripts": {
+          "test": "bundle exec rake test"
+        }
+      }
+    }
+  }
+  
